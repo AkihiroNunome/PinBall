@@ -23,14 +23,14 @@ public class FripperController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-
+        
         //左矢印キーを押した時左フリッパーを動かす
         if (Input.GetKeyDown(KeyCode.LeftArrow) && tag == "LeftFripperTug")
         {
             SetAngle(this.flickAngle);
         }
         //右矢印キーを押した時右フリッパーを動かす
-        if(Input.GetKeyDown(KeyCode.RightArrow) && tag == "RightFripperTug")
+        if (Input.GetKeyDown(KeyCode.RightArrow) && tag == "RightFripperTug")
         {
             SetAngle(this.flickAngle);
         }
@@ -43,6 +43,37 @@ public class FripperController : MonoBehaviour {
         if (Input.GetKeyUp(KeyCode.RightArrow) && tag == "RightFripperTug")
         {
             SetAngle(this.defaultAngle);
+        }
+        //画面左側をタッチした時左フリッパーを動かす
+        Touch[] myTouch = Input.touches;
+        for (int i = 0; i <= Input.touchCount-1; i++)
+        {
+            if (myTouch[i].position.x < Screen.width / 2 && tag == "LeftFripperTug")
+            {
+                switch (myTouch[i].phase)
+                {
+                    case TouchPhase.Began:
+                        SetAngle(this.flickAngle);
+                        break;
+                    case TouchPhase.Ended:
+                        SetAngle(this.defaultAngle);
+                        break;
+                }
+            }
+
+            //画面右側をタッチした時右フリッパーを動かす
+            if (myTouch[i].position.x >= Screen.width / 2 && tag == "RightFripperTug")
+            {
+                switch (myTouch[i].phase)
+                {
+                    case TouchPhase.Began:
+                        SetAngle(this.flickAngle);
+                        break;
+                    case TouchPhase.Ended:
+                        SetAngle(this.defaultAngle);
+                        break;
+                }
+            }
         }
     }
 
